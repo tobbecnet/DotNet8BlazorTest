@@ -1,0 +1,122 @@
+﻿@page "/admin/edit"
+@using BlazorTestApp.Components.Elements
+@rendermode InteractiveServer
+
+<PageTitle>Admin edit</PageTitle>
+
+
+@code {
+    // Blog post properties
+    private string title;
+    private string content;
+    private string imageUrl;
+    private string author;
+    private string introduction;
+    private DateTimeOffset date;
+
+    // Event to notify the parent component when the form is submitted
+    [Parameter] public EventCallback<BlogPostModel> OnSubmit { get; set; }
+
+    // Model to represent the blog post
+    public class BlogPostModel
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string ImageUrl { get; set; }
+        public string Author { get; set; }
+        public string Introduction { get; set; }
+        public DateTimeOffset Date { get; set; }
+    }
+
+    // Method to handle form submission
+    private async Task HandleSubmit()
+    {
+        // Create a BlogPostModel object and populate its properties
+        var blogPost = new BlogPostModel
+            {
+                Title = title,
+                Content = content,
+                ImageUrl = imageUrl,
+                Author = author,
+                Introduction = introduction,
+                Date = date
+            };
+
+        // Trigger the OnSubmit event with the blog post model
+        await OnSubmit.InvokeAsync(blogPost);
+
+        // Optionally, you can reset the form fields after submission
+        ResetForm();
+    }
+
+    // Method to reset form fields
+    private void ResetForm()
+    {
+        title = string.Empty;
+        content = string.Empty;
+        imageUrl = string.Empty;
+        author = string.Empty;
+        introduction = string.Empty;
+        date = DateTimeOffset.Now;
+    }
+
+    // Handle image upload
+    private async Task HandleImageUpload(string base64ImageData)
+    {
+        // Handle the uploaded image data (e.g., save to a model property)
+        // For simplicity, this example just sets the imageUrl property in the parent component
+        imageUrl = $"data:image/png;base64,{base64ImageData}";
+    }
+}
+
+<!-- BlogPostForm.razor Content -->
+
+<div class="container">
+    <h3>Create a new blog post</h3>
+
+    <form>
+        <!-- Title -->
+        <div class="form-group py-2">
+            <label for="title">Title:</label>
+            <input type="text" id="title" @bind="title" class="form-control" />
+        </div>
+
+        <!-- Date -->
+        <div class="form-group py-2">
+            <label for="date">Date:</label>
+            <input type="datetime-local" id="date" @bind="date" class="form-control" />
+        </div>
+
+        <!-- Author -->
+        <div class="form-group py-2">
+            <label for="author">Author:</label>
+            <input type="text" id="author" @bind="author" class="form-control" />
+        </div>
+
+        <!-- Introduction -->
+        <div class="form-group py-2">
+            <label for="introduction">Introduction:</label>
+            <textarea id="introduction" @bind="introduction" class="form-control" rows="3"></textarea>
+        </div>
+
+        <!-- Content -->
+        <div class="form-group py-2">
+            <label for="content">Content:</label>
+            <textarea id="content" @bind="content" class="form-control" rows="5"></textarea>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+            <label for="imageUpload">Upload Image:</label>
+            <ImageUploadComponent OnUpload="HandleImageUpload" />
+            <img src="@imageUrl"/>
+        </div>    
+
+        
+
+        
+
+        <!-- Submit Button -->
+        <button type="button" class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+    </form>
+</div>

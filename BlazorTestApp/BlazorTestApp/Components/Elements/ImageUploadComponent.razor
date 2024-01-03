@@ -1,0 +1,33 @@
+﻿<!-- ImageUpload.razor -->
+@code {
+    private string base64ImageData;
+
+    [Parameter] public EventCallback<string> OnUpload { get; set; }
+
+    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        if (file != null)
+        {
+            // Handle the file upload (you may want to save it to a server or process it)
+            // For simplicity, this example just triggers the OnUpload event with the base64 data
+            base64ImageData = await ConvertFileToBase64(file);
+            await OnUpload.InvokeAsync(base64ImageData);
+        }
+    }
+
+    private async Task<string> ConvertFileToBase64(IBrowserFile file)
+    {
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        return Convert.ToBase64String(buffer);
+    }
+}
+
+<!-- ImageUpload.razor Content -->
+
+<div>
+    <h5>Upload Image</h5>
+
+    <InputFile OnChange="HandleFileSelection" />
+</div>
