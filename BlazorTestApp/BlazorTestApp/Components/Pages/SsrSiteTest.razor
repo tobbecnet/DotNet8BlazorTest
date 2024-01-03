@@ -1,0 +1,31 @@
+﻿@page "/ssr"
+
+@using Components.Layout
+@layout EmptyLayout
+
+<!-- As this is a top level component/page, this should be rendered statically. -->
+
+<PageTitle>SsrSiteTest</PageTitle>
+
+<h2>SsrSiteTest Static</h2>
+
+<button @onclick="UpdateMessageTextBox">Update Text Box</button>
+
+<label for="MessageTextBox">MessageTextBox:</label>
+<input type="text" id="MessageTextBox" value="@message" />
+
+@code {
+
+    private String message { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        message = "Initial message.";
+    }
+
+    public void UpdateMessageTextBox()
+    {
+        message = "Button clicked.";
+    }
+}
