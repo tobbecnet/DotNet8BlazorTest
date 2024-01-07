@@ -18,29 +18,31 @@
 
     @if (blogPosts != null && blogPosts.Any())
     {
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var post in blogPosts)
-                {
-                    <tr>
-                        <td>@post.Title</td>
-                        <td>@post.Author</td>
-                        <td>@post.Date.ToString("yyyy-MM-dd HH:mm")</td>
-                        <td>
-                            <a href="admin/edit" class="btn btn-primary">Edit</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="d-flex flex-column">
+            @foreach (var post in blogPosts)
+            {
+                <div class="d-flex flex-row mb-3 border rounded p-2">
+                    <div class="flex-shrink-0">
+                        <!-- Assuming each blog post has an image URL -->
+                        <img src="@post.ImageUrl" alt="Blog Post Image" class="img-fluid" style="max-width: 150px;" />
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h4>@post.Title</h4>
+                        <p>@post.Introduction</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="fw-bold">Author:</span> @post.Author
+                            </div>
+                            <div>
+                                <span class="fw-bold">Date:</span> @post.Date.ToString("yyyy-MM-dd HH:mm")
+                            </div>
+                        </div>
+                        <a href="admin/edit" class="btn btn-primary mt-2">Edit</a>
+                        <!-- Add other actions (e.g., edit, delete) as needed -->
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
