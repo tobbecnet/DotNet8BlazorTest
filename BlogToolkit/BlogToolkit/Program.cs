@@ -1,5 +1,6 @@
-using BlazorTestApp.Client.Pages;
-using BlazorTestApp.Components;
+using BlogToolkit.Client.Pages;
+using BlogToolkit.Components;
+using BlogToolkit.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddSingleton<BlogPostService>();
 
 var app = builder.Build();
 

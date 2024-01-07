@@ -1,0 +1,50 @@
+@page "/admin/bloglist"
+@using BlogToolkit.Service
+@inject BlogPostService BlogPostService
+@rendermode InteractiveServer
+
+
+@code {
+    private List<BlogPost> blogPosts = new List<BlogPost>();
+
+    protected override void OnInitialized()
+    {
+        blogPosts = BlogPostService.GetPosts();
+    }
+}
+
+<div class="container">
+    <h3>Blog Post List</h3>
+
+    @if (blogPosts != null && blogPosts.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in blogPosts)
+                {
+                    <tr>
+                        <td>@post.Title</td>
+                        <td>@post.Author</td>
+                        <td>@post.Date.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            <a href="admin/edit" class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No blog posts available.</p>
+    }
+</div>
+

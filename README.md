@@ -9,3 +9,4 @@ So what do we want to test here?
 * Default behaviour (SSR)
 * Adding other features to the project, like standard MVC
 
+For demo purposes a small blog post project will be created.
