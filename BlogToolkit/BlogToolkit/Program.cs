@@ -1,8 +1,11 @@
 using BlogToolkit.Client.Pages;
 using BlogToolkit.Components;
+using BlogToolkit.Repository;
 using BlogToolkit.Service;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<BlogToolkitDbSettings>(builder.Configuration.GetSection("BlogToolkitDatabase"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
