@@ -7,9 +7,9 @@
 @code {
     private List<BlogPost> blogPosts = new List<BlogPost>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        blogPosts = BlogPostService.GetPosts();
+        blogPosts = await BlogPostService.GetAllPosts();
     }
 }
 

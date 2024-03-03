@@ -12,7 +12,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddSingleton<BlogPostService>();
+builder.Services.AddScoped<BlogPostService>();
+builder.Services.AddScoped<BlogPostRepository>();
 
 var app = builder.Build();
 

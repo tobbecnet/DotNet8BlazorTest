@@ -1,9 +1,31 @@
 ﻿@page "/admin"
 @rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+
+@code {
+
+    public void NavigateToBlogList()
+    {
+        NavigationManager.NavigateTo("admin/bloglist");
+    }
+
+    public void NavigateToAddBlogPost()
+    {
+        NavigationManager.NavigateTo("admin/edit");
+    }
+}
 
 
 <PageTitle>Admin area</PageTitle>
 
-<h1>Admin area</h1>
+<h1>Add or edit blog posts</h1>
 
-Show some statistics, and a shortlink to the latest post, for easy continuation...
+<div class="container">
+    <div class="row">
+        <button class="btn btn-primary" @onclick="NavigateToBlogList">To BlogList</button>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" @onclick="NavigateToAddBlogPost">To Add Blog Post</button>
+    </div>
+</div>

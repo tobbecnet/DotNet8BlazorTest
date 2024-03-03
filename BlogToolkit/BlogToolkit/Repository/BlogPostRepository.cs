@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Bson;
 using Microsoft.Extensions.Options;
+using BlogToolkit.Service;
 
 
 namespace BlogToolkit.Repository
@@ -18,19 +19,20 @@ namespace BlogToolkit.Repository
             _client = new MongoClient(settings);            
         }
 
-
-        public void PingDatabase()
+        public async Task<List<BlogPost>> GetAllPosts()
         {
-            // Send a ping to confirm a successful connection
-            try
-            {
-                var result = _client.GetDatabase("tbnCluster0").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-                Console.WriteLine("Pinged your deployment. You successfully connected to MongoDB!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            return await _client.GetDatabase("BlogPostDb")
+                .GetCollection<BlogPost>("BlogPostCollection")
+                .FindAsync<BlogPost>(Builders<BlogPost>.Filter.Empty)
+                .Result
+                .ToListAsync();
+        }
+
+        public async Task AddPost(BlogPost blogPost)
+        {
+            await _client.GetDatabase("BlogPostDb")
+                .GetCollection<BlogPost>("BlogPostCollection")
+                .InsertOneAsync(blogPost);
         }
     }
 }
